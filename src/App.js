@@ -10,7 +10,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<ContributionSearch />} />
+        <Route path="/react-fec-client" element={<ContributionSearch />} />
         <Route path="/about" element={<About />} />
+        <Route path="/react-fec-client/about" element={<About />} />
       </Routes>
     </div>
   );
