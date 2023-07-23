@@ -7,8 +7,8 @@ export const REQUEST_STATUS = {
   FAILURE: "failure",
 };
 
-//const restUrl = "https://joshuaism.pythonanywhere.com/scheduleA/?";
-const restUrl = "http://127.0.0.1:8000/scheduleA/?";
+const restUrl = "https://joshuaism.pythonanywhere.com/scheduleA/?";
+//const restUrl = "http://127.0.0.1:8000/scheduleA/?";
 const committeeTypes = ["president", "senate", "house", "other"];
 
 function useContributionService() {
