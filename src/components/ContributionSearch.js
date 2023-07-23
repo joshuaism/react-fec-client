@@ -3,8 +3,7 @@ import ContributionSearchForm from "./ContributionSearchForm";
 import ContributionSearchResults from "./ContributionSearchResults";
 
 export default function ContributionSearch() {
-  const { data, requestStatus, error, searchContributions } =
-    useContributionService();
+  const { data, groups, setGroups, requestStatus, error, searchContributions } = useContributionService();
 
   return (
     <>
@@ -12,6 +11,8 @@ export default function ContributionSearch() {
       <ContributionSearchForm searchContributions={searchContributions} />
       <ContributionSearchResults
         data={data}
+        groups={groups}
+        setGroups={setGroups}
         requestStatus={requestStatus}
         error={error}
       />
