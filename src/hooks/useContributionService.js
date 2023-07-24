@@ -7,12 +7,20 @@ export const REQUEST_STATUS = {
   FAILURE: "failure",
 };
 
+export function groupBy(xs, key) {
+  return xs.reduce(function (rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+}
+
 const restUrl = "https://joshuaism.pythonanywhere.com/scheduleA/?";
 //const restUrl = "http://127.0.0.1:8000/scheduleA/?";
 const committeeTypes = ["president", "senate", "house", "other"];
 
 function useContributionService() {
   const [data, setData] = useState();
+  const [groups, setGroups] = useState();
   const [requestStatus, setRequestStatus] = useState("");
   const [error, setError] = useState("");
 
@@ -33,7 +41,7 @@ function useContributionService() {
         return `${key}=${formData[key]}`;
       })
       .join("&");
-    console.log(queryparams);
+
     const requestUrl = `${restUrl}${queryparams}`;
     async function makeRequest() {
       setRequestStatus(REQUEST_STATUS.LOADING);
@@ -46,6 +54,8 @@ function useContributionService() {
           return collector;
         });
         setData(collectedObject);
+        const groupedObjects = groupBy(collectedObject.results, "fullName");
+        setGroups(groupedObjects);
       } catch (e) {
         setRequestStatus(REQUEST_STATUS.FAILURE);
         setError(e);
@@ -54,7 +64,7 @@ function useContributionService() {
     makeRequest();
   }
 
-  return { data, requestStatus, error, searchContributions };
+  return { data, groups, setGroups, requestStatus, error, searchContributions };
 }
 
 export default useContributionService;

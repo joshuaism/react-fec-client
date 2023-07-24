@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+table {
+  width: 80%;
+  margin: auto;
+}
+
+.republican {
+  background-color: rgb(241, 141, 141);
+}
+
+.democrat {
+  background-color: lightblue;
+}
+
+.libertarian {
+  background-color: rgb(228, 228, 154);
+}
+
+.green {
+  background-color: rgb(157, 255, 157);
+}
