@@ -16,7 +16,9 @@ export function groupBy(xs, key) {
 
 const restUrl = "https://joshuaism.pythonanywhere.com/scheduleA/?";
 //const restUrl = "http://127.0.0.1:8000/scheduleA/?";
-const committeeTypes = ["president", "senate", "house", "other"];
+
+const committeeTypes = ["p", "s", "h", "other"];
+const otherCommitteeTypes = ["c", "d", "e", "i", "n", "o", "q", "u", "v", "w", "x", "y", "z"];
 
 function useContributionService() {
   const [data, setData] = useState();
@@ -36,7 +38,10 @@ function useContributionService() {
       .filter((key) => formData[key] && formData[key] !== "")
       .map((key) => {
         if (committeeTypes.includes(key)) {
-          return `committeeType=${key}`;
+          if (key === "other") {
+            return otherCommitteeTypes.map((type) => `committee_type=${type}`).join("&");
+          }
+          return `committee_type=${key}`;
         }
         return `${key}=${formData[key]}`;
       })

@@ -117,26 +117,22 @@ export default function ContributionSearchForm({ searchContributions }) {
       </label>
       <label>
         Committee:
-        <input type="text" name="committee" onChange={updateCheckbox}></input>
+        <input type="text" name="committee" onChange={updateData}></input>
       </label>
       <label>
-        <input
-          type="checkbox"
-          name="president"
-          onChange={updateCheckbox}
-        ></input>
+        <input type="checkbox" name="p" onChange={updateCheckbox}></input>
         President
       </label>
       <label>
-        <input type="checkbox" name="senate" onChange={updateCheckbox}></input>
+        <input type="checkbox" name="s" onChange={updateCheckbox}></input>
         Senate
       </label>
       <label>
-        <input type="checkbox" name="house" onChange={updateCheckbox}></input>
+        <input type="checkbox" name="h" onChange={updateCheckbox}></input>
         House
       </label>
       <label>
-        <input type="checkbox" name="other" onChange={updateData}></input>
+        <input type="checkbox" name="other" onChange={updateCheckbox}></input>
         Other
       </label>
       <button type="reset">Clear Form</button>
