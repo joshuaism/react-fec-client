@@ -101,6 +101,10 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
         <input type="radio" value="committee" name="group" onChange={(e) => onChangeValue(e)}></input>
         committee
       </label>
+      <label>
+        <input type="radio" value="two_year_transaction_period" name="group" onChange={(e) => onChangeValue(e)}></input>
+        year
+      </label>
       <h1>Contributions</h1>
       <p>
         Returned {data.results.length} of {data.pagination.count} records
