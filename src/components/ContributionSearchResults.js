@@ -57,10 +57,7 @@ function getParty({ party }) {
 
 function Committee({ contribution }) {
   const { earmark, committee } = contribution;
-  if (earmark) {
-    return <div>{earmark}</div>;
-  }
-  return <div>{committee.name}</div>;
+  return <span title={earmark}>{committee.name}</span>;
 }
 
 export default function ContributionSearchResults({ data, groups, setGroups, requestStatus, error }) {
