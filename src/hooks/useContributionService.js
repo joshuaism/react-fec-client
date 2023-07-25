@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { YEARS } from "../constants";
 import axios from "axios";
 
 export const REQUEST_STATUS = {
@@ -33,9 +34,23 @@ function useContributionService() {
     [] // use an empty array here so it only runs the first time the component renders
   );*/
 
-  function searchContributions(formData) {
+  function getYearParams(fromYear, toYear) {
+    fromYear = fromYear ? fromYear : 2024;
+    toYear = toYear ? toYear : 2024;
+    if (fromYear > toYear) {
+      fromYear = toYear;
+    }
+    return YEARS.filter((year) => year >= fromYear && year <= toYear)
+      .map((year) => {
+        return `cycle=${year}`;
+      })
+      .join("&");
+  }
+
+  function getRequestUrl(formData) {
     const queryparams = Object.keys(formData)
       .filter((key) => formData[key] && formData[key] !== "")
+      .filter((key) => key !== "from_year" && key !== "to_year")
       .map((key) => {
         if (committeeTypes.includes(key)) {
           if (key === "other") {
@@ -47,7 +62,19 @@ function useContributionService() {
       })
       .join("&");
 
-    const requestUrl = `${restUrl}${queryparams}`;
+    const yearparams = getYearParams(formData.from_year, formData.to_year);
+
+    if (queryparams && yearparams) return `${restUrl}${queryparams}&${yearparams}`;
+    if (queryparams) return `${restUrl}${queryparams}`;
+    if (yearparams) return `${restUrl}${yearparams}`;
+    return "";
+  }
+
+  function searchContributions(formData) {
+    const requestUrl = getRequestUrl(formData);
+    if (requestUrl === "") {
+      throw error;
+    }
     async function makeRequest() {
       setRequestStatus(REQUEST_STATUS.LOADING);
       try {

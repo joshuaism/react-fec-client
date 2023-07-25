@@ -1,70 +1,10 @@
 import { useState } from "react";
-
-const STATES = [
-  "AL",
-  "AK",
-  "AR",
-  "AZ",
-  "CA",
-  "CO",
-  "CT",
-  "DC",
-  "DE",
-  "FL",
-  "GA",
-  "HI",
-  "IA",
-  "ID",
-  "IL",
-  "IN",
-  "KS",
-  "KY",
-  "LA",
-  "MA",
-  "MD",
-  "ME",
-  "MI",
-  "MN",
-  "MO",
-  "MS",
-  "MT",
-  "NC",
-  "NE",
-  "NH",
-  "NJ",
-  "NM",
-  "NV",
-  "NY",
-  "ND",
-  "OH",
-  "OK",
-  "OR",
-  "PA",
-  "RI",
-  "SC",
-  "SD",
-  "TN",
-  "TX",
-  "UT",
-  "VT",
-  "VA",
-  "WA",
-  "WI",
-  "WV",
-  "WY",
-  "AS",
-  "GU",
-  "MP",
-  "PR",
-  "UM",
-  "VI",
-  "AA",
-  "AP",
-  "AE",
-];
+import { STATES, YEARS } from "../constants";
 
 export default function ContributionSearchForm({ searchContributions }) {
   const [data, setData] = useState({});
+  const [toYear, setToYear] = useState(2024);
+  const [fromYear, setFromYear] = useState(2024);
 
   function updateData(e) {
     //console.log(`updating ${e.target.name} to ${e.target.value}`);
@@ -74,6 +14,22 @@ export default function ContributionSearchForm({ searchContributions }) {
   function updateCheckbox(e) {
     //console.log(`updating ${e.target.name} to ${e.target.checked}`);
     setData({ ...data, [e.target.name]: e.target.checked });
+  }
+
+  function updateFromYear(event) {
+    updateData(event);
+    setFromYear(event.target.value);
+    if (event.target.value > toYear) {
+      setToYear(event.target.value);
+    }
+  }
+
+  function updateToYear(event) {
+    updateData(event);
+    setToYear(event.target.value);
+    if (event.target.value < fromYear) {
+      setFromYear(event.target.value);
+    }
   }
 
   function handleReset() {
@@ -134,6 +90,26 @@ export default function ContributionSearchForm({ searchContributions }) {
       <label>
         <input type="checkbox" name="other" onChange={updateCheckbox}></input>
         Other
+      </label>
+      <label>
+        From:
+        <select name="from_year" value={fromYear} onChange={updateFromYear}>
+          {YEARS.map((year) => (
+            <option value={year} key={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        To:
+        <select name="to_year" value={toYear} onChange={updateToYear}>
+          {YEARS.map((year) => (
+            <option value={year} key={year}>
+              {year}
+            </option>
+          ))}
+        </select>
       </label>
       <button type="reset">Clear Form</button>
       <button type="submit">Submit</button>
