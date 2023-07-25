@@ -17,18 +17,24 @@ export default function ContributionSearchForm({ searchContributions }) {
   }
 
   function updateFromYear(event) {
-    updateData(event);
-    setFromYear(event.target.value);
-    if (event.target.value > toYear) {
-      setToYear(event.target.value);
+    const { target } = event;
+    setFromYear(target.value);
+    if (target.value > toYear) {
+      setToYear(target.value);
+      setData({ ...data, [target.name]: target.value, ["to_year"]: target.value });
+    } else {
+      updateData(event);
     }
   }
 
   function updateToYear(event) {
-    updateData(event);
-    setToYear(event.target.value);
-    if (event.target.value < fromYear) {
-      setFromYear(event.target.value);
+    const { target } = event;
+    setToYear(target.value);
+    if (target.value < fromYear) {
+      setFromYear(target.value);
+      setData({ ...data, [target.name]: target.value, ["from_year"]: target.value });
+    } else {
+      updateData(event);
     }
   }
 
