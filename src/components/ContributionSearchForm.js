@@ -40,6 +40,8 @@ export default function ContributionSearchForm({ searchContributions }) {
 
   function handleReset() {
     setData({});
+    setFromYear(2024);
+    setToYear(2024);
     console.log("cleared form");
   }
 
@@ -49,54 +51,7 @@ export default function ContributionSearchForm({ searchContributions }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} onReset={handleReset}>
-      <label>
-        Name:
-        <input type="text" name="name" onChange={updateData}></input>
-      </label>
-      <label>
-        Employer:
-        <input type="text" name="employer" onChange={updateData}></input>
-      </label>
-      <label>
-        Occupation:
-        <input type="text" name="occupation" onChange={updateData}></input>
-      </label>
-      <label>
-        City:
-        <input type="text" name="city" onChange={updateData}></input>
-      </label>
-      <label>
-        State:
-        <select name="state" onChange={updateData}>
-          <option value="" key=""></option>
-          {STATES.map((state) => (
-            <option value={state} key={state}>
-              {state}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Committee:
-        <input type="text" name="committee" onChange={updateData}></input>
-      </label>
-      <label>
-        <input type="checkbox" name="p" onChange={updateCheckbox}></input>
-        President
-      </label>
-      <label>
-        <input type="checkbox" name="s" onChange={updateCheckbox}></input>
-        Senate
-      </label>
-      <label>
-        <input type="checkbox" name="h" onChange={updateCheckbox}></input>
-        House
-      </label>
-      <label>
-        <input type="checkbox" name="other" onChange={updateCheckbox}></input>
-        Other
-      </label>
+    <div>
       <label>
         From:
         <select name="from_year" value={fromYear} onChange={updateFromYear}>
@@ -117,8 +72,57 @@ export default function ContributionSearchForm({ searchContributions }) {
           ))}
         </select>
       </label>
-      <button type="reset">Clear Form</button>
-      <button type="submit">Submit</button>
-    </form>
+      <form onSubmit={handleSubmit} onReset={handleReset}>
+        <label>
+          Name:
+          <input type="text" name="name" onChange={updateData}></input>
+        </label>
+        <label>
+          Employer:
+          <input type="text" name="employer" onChange={updateData}></input>
+        </label>
+        <label>
+          Occupation:
+          <input type="text" name="occupation" onChange={updateData}></input>
+        </label>
+        <label>
+          City:
+          <input type="text" name="city" onChange={updateData}></input>
+        </label>
+        <label>
+          State:
+          <select name="state" onChange={updateData}>
+            <option value="" key=""></option>
+            {STATES.map((state) => (
+              <option value={state} key={state}>
+                {state}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Committee:
+          <input type="text" name="committee" onChange={updateData}></input>
+        </label>
+        <label>
+          <input type="checkbox" name="p" onChange={updateCheckbox}></input>
+          President
+        </label>
+        <label>
+          <input type="checkbox" name="s" onChange={updateCheckbox}></input>
+          Senate
+        </label>
+        <label>
+          <input type="checkbox" name="h" onChange={updateCheckbox}></input>
+          House
+        </label>
+        <label>
+          <input type="checkbox" name="other" onChange={updateCheckbox}></input>
+          Other
+        </label>
+        <button type="reset">Clear Form</button>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 }
