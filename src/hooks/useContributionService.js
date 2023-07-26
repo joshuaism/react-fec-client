@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { YEARS } from "../constants";
 import axios from "axios";
 
@@ -26,13 +26,6 @@ function useContributionService() {
   const [groups, setGroups] = useState();
   const [requestStatus, setRequestStatus] = useState("");
   const [error, setError] = useState("");
-
-  /*useEffect(
-    () => {
-      searchContributions();
-    },
-    [] // use an empty array here so it only runs the first time the component renders
-  );*/
 
   function getYearParams(fromYear, toYear) {
     fromYear = fromYear ? fromYear : 2024;
