@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { REQUEST_STATUS } from "../hooks/useContributionService";
 import { groupBy } from "../hooks/useContributionService";
-import ContributionGroupCard from "./ContributionGroupCard";
+import ContributionGroupCards from "./ContributionGroupCards";
 
 export default function ContributionSearchResults({ data, groups, setGroups, requestStatus, error }) {
-  const [activeCard, setActiveCard] = useState("all");
   if (requestStatus === "") return null;
   if (requestStatus === REQUEST_STATUS.LOADING) return <p>Loading...</p>;
   if (error) {
@@ -22,11 +20,6 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
     } else {
       setGroups(groupBy(data.results, e.target.value));
     }
-    setActiveCard("all");
-  }
-
-  function onChangeCard(e) {
-    setActiveCard(e.target.value);
   }
 
   return (
@@ -55,37 +48,7 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
       <p>
         Returned {data.results.length} of {data.pagination.count} records
       </p>
-
-      <label>
-        <input type="radio" value="all" name="card" onChange={(e) => onChangeCard(e)} defaultChecked></input>
-        all
-      </label>
-
-      {Object.keys(groups)
-        .sort()
-        .map((group) => {
-          return (
-            <label>
-              <input type="radio" value={group} name="card" onChange={(e) => onChangeCard(e)}></input>
-              {group}
-            </label>
-          );
-        })}
-
-      {Object.keys(groups)
-        .sort()
-        .filter((group) => {
-          if (activeCard === "all") return true;
-          return group === activeCard;
-        })
-        .map((group) => {
-          return (
-            <div>
-              <h3>{group}</h3>
-              <ContributionGroupCard key={group} group={groups[group]} />
-            </div>
-          );
-        })}
+      <ContributionGroupCards groups={groups} />
     </div>
   );
 }

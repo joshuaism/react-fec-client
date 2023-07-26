@@ -1,8 +1,9 @@
 import { v4 as uuid } from "uuid";
 
-export default function ContributionGroupCard({ group }) {
+export default function ContributionGroupCard({ header, group }) {
   return (
     <table>
+      <caption>{header}</caption>
       <thead>
         <tr>
           <th>name</th>
