@@ -1,0 +1,60 @@
+import { v4 as uuid } from "uuid";
+
+export default function ContributionGroupCard({ header, group }) {
+  return (
+    <table>
+      <caption>{header}</caption>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>location</th>
+          <th>employer</th>
+          <th>occupation</th>
+          <th>committee</th>
+          <th>amount</th>
+          <th>date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {group.map((contribution) => {
+          return <Contribution key={uuid()} contribution={contribution} />;
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+function Contribution({ contribution }) {
+  const { fullName, address, city, state, employer, occupation, amount, committee, date } = contribution;
+  const dateString = new Date(date).toLocaleDateString("en-US");
+  const amountString = parseFloat(amount).toLocaleString("en-US", { style: "currency", currency: "USD" });
+  return (
+    <tr className={getParty(committee)}>
+      <td>{fullName}</td>
+      <td>
+        <span title={address}>
+          {city}, {state}
+        </span>
+      </td>
+      <td>{employer}</td>
+      <td>{occupation}</td>
+      <td>
+        <Committee contribution={contribution} />
+      </td>
+      <td>{amountString}</td>
+      <td>{dateString}</td>
+    </tr>
+  );
+}
+
+function getParty({ party }) {
+  if (party.indexOf("DEMOCRATIC") > -1) return "democrat";
+  if (party.indexOf("REPUBLICAN") > -1) return "republican";
+  if (party.indexOf("LIBERTARIAN") > -1) return "libertarian";
+  if (party.indexOf("GREEN") > -1) return "green";
+}
+
+function Committee({ contribution }) {
+  const { earmark, committee } = contribution;
+  return <span title={earmark}>{committee.name}</span>;
+}

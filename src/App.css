@@ -42,6 +42,11 @@ table {
   margin: auto;
 }
 
+caption {
+  font-size: x-large;
+  font-weight: bold;
+}
+
 .republican {
   background-color: rgb(241, 141, 141);
 }
