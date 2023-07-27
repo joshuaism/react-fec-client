@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { REQUEST_STATUS } from "../hooks/useContributionService";
 import { groupBy } from "../hooks/useContributionService";
 import ContributionGroupCards from "./ContributionGroupCards";
 
 export default function ContributionSearchResults({ data, groups, setGroups, requestStatus, error }) {
+  const [grouping, setGrouping] = useState("fullName");
   if (requestStatus === "") return null;
   if (requestStatus === REQUEST_STATUS.LOADING) return <p>Loading...</p>;
   if (error) {
@@ -11,6 +13,7 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
   }
 
   function onChangeValue(e) {
+    setGrouping(e.target.value);
     if (e.target.value === "committee") {
       const newGroups = data.results.reduce(function (rv, x) {
         (rv[x["committee"].name] = rv[x["committee"].name] || []).push(x);
@@ -48,7 +51,7 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
       <p>
         Returned {data.results.length} of {data.pagination.count} records
       </p>
-      <ContributionGroupCards groups={groups} />
+      <ContributionGroupCards key={grouping} groups={groups} />
     </div>
   );
 }
