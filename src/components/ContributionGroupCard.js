@@ -2,16 +2,26 @@ import Table from "./Table";
 
 const columns = [
   { label: "Name", accessor: "fullName", sortable: true },
-  { label: "Location", accessor: "city", sortable: true },
+  { label: "Location", accessor: "city", replacement: asLocation, sortable: true },
   { label: "Employer", accessor: "employer", sortable: true },
   { label: "Occupation", accessor: "occupation", sortable: true },
-  { label: "Committee", accessor: "committee", decorator: asCommittee, sortable: true },
+  { label: "Committee", accessor: "committee", replacement: asCommittee, sortable: true },
   { label: "Amount", accessor: "amount", decorator: asMoney, sortable: true },
   { label: "Date", accessor: "date", decorator: asDate, sortable: true },
 ];
 
-function asCommittee(field) {
-  return field.name;
+function asLocation(contribution) {
+  const { address, city, state } = contribution;
+  return (
+    <span title={address}>
+      {city}, {state}
+    </span>
+  );
+}
+
+function asCommittee(contribution) {
+  const { earmark, committee } = contribution;
+  return <span title={earmark}>{committee.name}</span>;
 }
 
 function asMoney(field) {
