@@ -1,27 +1,29 @@
-import { v4 as uuid } from "uuid";
+import Table from "./Table";
+
+const columns = [
+  { label: "Name", accessor: "fullName", sortable: true },
+  { label: "Location", accessor: "city", sortable: true },
+  { label: "Employer", accessor: "employer", sortable: true },
+  { label: "Occupation", accessor: "occupation", sortable: true },
+  { label: "Committee", accessor: "committee", decorator: asCommittee, sortable: true },
+  { label: "Amount", accessor: "amount", decorator: asMoney, sortable: true },
+  { label: "Date", accessor: "date", decorator: asDate, sortable: true },
+];
+
+function asCommittee(field) {
+  return field.name;
+}
+
+function asMoney(field) {
+  return parseFloat(field).toLocaleString("en-US", { style: "currency", currency: "USD" });
+}
+
+function asDate(field) {
+  return new Date(field).toLocaleDateString("en-US");
+}
 
 export default function ContributionGroupCard({ header, group }) {
-  return (
-    <table>
-      <caption>{header}</caption>
-      <thead>
-        <tr>
-          <th>name</th>
-          <th>location</th>
-          <th>employer</th>
-          <th>occupation</th>
-          <th>committee</th>
-          <th>amount</th>
-          <th>date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {group.map((contribution) => {
-          return <Contribution key={uuid()} contribution={contribution} />;
-        })}
-      </tbody>
-    </table>
-  );
+  return <Table caption={header} data={group} columns={columns} />;
 }
 
 function Contribution({ contribution }) {
