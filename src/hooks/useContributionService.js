@@ -15,8 +15,8 @@ export function groupBy(xs, key) {
   }, {});
 }
 
-const restUrl = "https://joshuaism.pythonanywhere.com/scheduleA/?";
-//const restUrl = "http://127.0.0.1:8000/scheduleA/?";
+const restUrl = "https://joshuaism.pythonanywhere.com/react/?";
+//const restUrl = "http://127.0.0.1:8000/react/?";
 
 const committeeTypes = ["p", "s", "h", "other"];
 const otherCommitteeTypes = ["c", "d", "e", "i", "n", "o", "q", "u", "v", "w", "x", "y", "z"];
