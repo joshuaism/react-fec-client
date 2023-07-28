@@ -1,5 +1,6 @@
 import Table from "./Table";
 import { sortOnField } from "../hooks/useSortableTable";
+import { DEMOCRATIC, REPUBLICAN } from "../constants";
 
 const columns = [
   { label: "Name", accessor: "fullName", sortable: true },
@@ -48,40 +49,20 @@ function asDate(field) {
 }
 
 export default function ContributionGroupCard({ header, group }) {
-  return <Table caption={header} data={group} columns={columns} />;
+  return <Table caption={header} data={group} columns={columns} rowClassOverride={getPartyStyle} />;
 }
 
-function Contribution({ contribution }) {
-  const { fullName, address, city, state, employer, occupation, amount, committee, date } = contribution;
-  const dateString = new Date(date).toLocaleDateString("en-US");
-  const amountString = parseFloat(amount).toLocaleString("en-US", { style: "currency", currency: "USD" });
-  return (
-    <tr className={getParty(committee)}>
-      <td>{fullName}</td>
-      <td>
-        <span title={address}>
-          {city}, {state}
-        </span>
-      </td>
-      <td>{employer}</td>
-      <td>{occupation}</td>
-      <td>
-        <Committee contribution={contribution} />
-      </td>
-      <td>{amountString}</td>
-      <td>{dateString}</td>
-    </tr>
-  );
-}
-
-function getParty({ party }) {
+function getPartyStyle(contribution) {
+  if (REPUBLICAN.includes(contribution.committee.name)) {
+    return "republican";
+  }
+  if (DEMOCRATIC.includes(contribution.committee.name)) {
+    return "democrat";
+  }
+  const party = contribution.committee.party;
   if (party.indexOf("DEMOCRATIC") > -1) return "democrat";
   if (party.indexOf("REPUBLICAN") > -1) return "republican";
   if (party.indexOf("LIBERTARIAN") > -1) return "libertarian";
   if (party.indexOf("GREEN") > -1) return "green";
-}
-
-function Committee({ contribution }) {
-  const { earmark, committee } = contribution;
-  return <span title={earmark}>{committee.name}</span>;
+  return "unknown";
 }

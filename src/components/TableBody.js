@@ -8,7 +8,7 @@ function formatData(data, decorator) {
   return "——";
 }
 
-const TableBody = ({ tableData, columns }) => {
+const TableBody = ({ tableData, columns, rowClassOverride }) => {
   return (
     <tbody>
       {tableData.map((data) => {
@@ -16,12 +16,20 @@ const TableBody = ({ tableData, columns }) => {
           <tr key={data.id}>
             {columns.map(({ accessor, decorator, replacement }) => {
               if (replacement) {
-                return <td key={accessor}>{replacement(data)}</td>;
+                return (
+                  <td className={rowClassOverride ? rowClassOverride(data) : null} key={accessor}>
+                    {replacement(data)}
+                  </td>
+                );
               }
               const tData = formatData(data[accessor], decorator);
               //const tData = data[accessor][field] ? data[accessor][field] : data[accessor] ? data[accessor] : "——";
 
-              return <td key={accessor}>{tData}</td>;
+              return (
+                <td className={rowClassOverride ? rowClassOverride(data) : null} key={accessor}>
+                  {tData}
+                </td>
+              );
             })}
           </tr>
         );

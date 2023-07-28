@@ -2,7 +2,7 @@ import { useSortableTable } from "../hooks/useSortableTable";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 
-const Table = ({ caption, data, columns }) => {
+const Table = ({ caption, data, columns, rowClassOverride }) => {
   const [tableData, handleSorting] = useSortableTable(data, columns);
 
   return (
@@ -10,7 +10,7 @@ const Table = ({ caption, data, columns }) => {
       <table className="table">
         <caption>{caption}</caption>
         <TableHead {...{ columns, handleSorting }} />
-        <TableBody {...{ columns, tableData }} />
+        <TableBody {...{ columns, tableData, rowClassOverride }} />
       </table>
     </>
   );

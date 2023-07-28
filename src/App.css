@@ -86,15 +86,15 @@ th.down {
   padding: 8px 20px;
 }
 
-.table tbody tr:first-child td {
+.table tbody tr:first-child {
   border-top: none;
 }
 
-.table tbody tr:nth-child(n) td {
+.table tbody tr:nth-child(n) {
   background: #eff0f0;
 }
 
-.table tbody tr:nth-child(2n) td {
+.table tbody tr:nth-child(2n) {
   background: #fff;
 }
 
@@ -112,4 +112,8 @@ th.down {
 
 .green {
   background-color: rgb(157, 255, 157);
+}
+
+.unknown {
+  background: #fff;
 }
