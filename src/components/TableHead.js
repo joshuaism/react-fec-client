@@ -4,18 +4,17 @@ const TableHead = ({ columns, handleSorting }) => {
   const [sortField, setSortField] = useState("");
   const [order, setOrder] = useState("asc");
 
-  const handleSortingChange = (accessor) => {
-    const sortOrder =
-      accessor === sortField && order === "asc" ? "desc" : "asc";
+  const handleSortingChange = (accessor, customSort) => {
+    const sortOrder = accessor === sortField && order === "asc" ? "desc" : "asc";
     setSortField(accessor);
     setOrder(sortOrder);
-    handleSorting(accessor, sortOrder);
+    handleSorting(accessor, sortOrder, customSort);
   };
 
   return (
     <thead>
       <tr>
-        {columns.map(({ label, accessor, sortable }) => {
+        {columns.map(({ label, accessor, sortable, customSort }) => {
           const cl = sortable
             ? sortField === accessor && order === "asc"
               ? "up"
@@ -27,7 +26,7 @@ const TableHead = ({ columns, handleSorting }) => {
             <th
               className={cl}
               key={accessor}
-              onClick={sortable ? () => handleSortingChange(accessor) : null}
+              onClick={sortable ? () => handleSortingChange(accessor, customSort) : null}
             >
               {label}{" "}
             </th>

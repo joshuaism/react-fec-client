@@ -24,17 +24,13 @@ export const useSortableTable = (data, columns) => {
   //const [tableData, setTableData] = useState(getDefaultSorting(data, columns));
   const [tableData, setTableData] = useState(data, columns);
 
-  const handleSorting = (sortField, sortOrder) => {
+  const handleSorting = (sortField, sortOrder, customSort) => {
     if (sortField) {
       const sorted = [...tableData].sort((a, b) => {
-        if (a[sortField] === null) return 1;
-        if (b[sortField] === null) return -1;
-        if (a[sortField] === null && b[sortField] === null) return 0;
-        return (
-          a[sortField].toString().localeCompare(b[sortField].toString(), "en", {
-            numeric: true,
-          }) * (sortOrder === "asc" ? 1 : -1)
-        );
+        if (customSort) {
+          return customSort(a, b) * (sortOrder === "asc" ? 1 : -1);
+        }
+        return sortOnField(a, b, sortField) * (sortOrder === "asc" ? 1 : -1);
       });
       setTableData(sorted);
     }
@@ -42,3 +38,12 @@ export const useSortableTable = (data, columns) => {
 
   return [tableData, handleSorting];
 };
+
+export function sortOnField(a, b, sortField) {
+  if (a[sortField] == null) return 1;
+  if (b[sortField] == null) return -1;
+  if (a[sortField] == null && b[sortField] == null) return 0;
+  return a[sortField].toString().localeCompare(b[sortField].toString(), "en", {
+    numeric: true,
+  });
+}

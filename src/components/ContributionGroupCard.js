@@ -1,14 +1,29 @@
 import Table from "./Table";
+import { sortOnField } from "../hooks/useSortableTable";
 
 const columns = [
   { label: "Name", accessor: "fullName", sortable: true },
-  { label: "Location", accessor: "city", replacement: asLocation, sortable: true },
+  { label: "Location", accessor: "city", customSort: sortByLocation, replacement: asLocation, sortable: true },
   { label: "Employer", accessor: "employer", sortable: true },
   { label: "Occupation", accessor: "occupation", sortable: true },
-  { label: "Committee", accessor: "committee", replacement: asCommittee, sortable: true },
+  { label: "Committee", accessor: "committee", customSort: sortByCommittee, replacement: asCommittee, sortable: true },
   { label: "Amount", accessor: "amount", decorator: asMoney, sortable: true },
   { label: "Date", accessor: "date", decorator: asDate, sortable: true },
 ];
+
+function sortByCommittee(a, b) {
+  if (a.committee.name !== b.committee.name) {
+    return sortOnField(a.committee, b.committee, "name");
+  }
+  return sortOnField(a, b, "earmark");
+}
+
+function sortByLocation(a, b) {
+  if (a.state !== b.state) {
+    return sortOnField(a, b, "state");
+  }
+  return sortOnField(a, b, "city");
+}
 
 function asLocation(contribution) {
   const { address, city, state } = contribution;
