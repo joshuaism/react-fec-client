@@ -45,6 +45,16 @@ export default function ContributionGroupCards({ groups }) {
           );
         })}
 
+      <div>
+        Showing{" "}
+        {Object.keys(groups)
+          .filter((group) => activeCards.includes(group))
+          .reduce((counter, group) => {
+            return (counter = counter + groups[group].length);
+          }, 0)}{" "}
+        records
+      </div>
+
       {Object.keys(groups)
         .sort()
         .filter((group) => activeCards.includes(group))
