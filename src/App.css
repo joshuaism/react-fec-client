@@ -117,3 +117,10 @@ th.down {
 .unknown {
   background: #fff;
 }
+
+.icon {
+  min-height: 20px;
+  min-width: 20px;
+  max-width: 20px;
+  max-height: 20px;
+}

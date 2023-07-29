@@ -1,6 +1,7 @@
 import Table from "./Table";
 import { sortOnField } from "../hooks/useSortableTable";
 import { DEMOCRATIC, REPUBLICAN } from "../constants";
+import Committee, { getCommitteeName } from "./Committee";
 
 const columns = [
   { label: "Name", accessor: "fullName", sortable: true },
@@ -13,8 +14,15 @@ const columns = [
 ];
 
 function sortByCommittee(a, b) {
-  if (a.committee.name !== b.committee.name) {
-    return sortOnField(a.committee, b.committee, "name");
+  const committeeA = getCommitteeName(a.earmark, a.committee);
+  const committeeB = getCommitteeName(b.earmark, b.committee);
+  if (committeeA !== committeeB) {
+    if (committeeA == null) return 1;
+    if (committeeB == null) return -1;
+    if (committeeA == null && committeeB == null) return 0;
+    return committeeA.toString().localeCompare(committeeB.toString(), "en", {
+      numeric: true,
+    });
   }
   return sortOnField(a, b, "earmark");
 }
@@ -36,8 +44,7 @@ function asLocation(contribution) {
 }
 
 function asCommittee(contribution) {
-  const { earmark, committee } = contribution;
-  return <span title={earmark}>{committee.name}</span>;
+  return <Committee contribution={contribution} />;
 }
 
 function asMoney(field) {
