@@ -48,8 +48,8 @@ export default function ContributionGroupCards({ groups }) {
             .sort()
             .map((group) => {
               return (
-                <div>
-                  <label key={group}>
+                <div key={group}>
+                  <label>
                     <input
                       type="checkbox"
                       name={group}

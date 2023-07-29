@@ -78,6 +78,10 @@ function useContributionService() {
           collector.results = [...collector.results, ...object.results];
           return collector;
         });
+        collectedObject.results = collectedObject.results.map((contribution) => {
+          contribution.id = `${contribution.fullName} ${contribution.address} ${contribution.city} ${contribution.state} ${contribution.committee.id} ${contribution.earmark} ${contribution.amount} ${contribution.date}`;
+          return contribution;
+        });
         setData(collectedObject);
         const groupedObjects = groupBy(collectedObject.results, "fullName");
         setGroups(groupedObjects);
