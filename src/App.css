@@ -37,6 +37,20 @@
   }
 }
 
+.left-column {
+  float: left;
+  max-width: 15%;
+  min-width: 15%;
+  vertical-align: top;
+}
+
+.right-column {
+  float: right;
+  min-width: 85%;
+  max-width: 85%;
+  vertical-align: top;
+}
+
 /* 
 =================
 Table
@@ -44,7 +58,7 @@ Table
 */
 
 .table {
-  width: 80%;
+  width: 90%;
   margin: auto;
   border-spacing: 0;
 }

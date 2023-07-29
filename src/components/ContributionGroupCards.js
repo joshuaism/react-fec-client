@@ -22,29 +22,7 @@ export default function ContributionGroupCards({ groups }) {
   }
 
   return (
-    <div>
-      <button name="show all" onClick={showAll}>
-        Show All
-      </button>
-      <button name="clear all" onClick={clearAll}>
-        clearAll
-      </button>
-      {Object.keys(groups)
-        .sort()
-        .map((group) => {
-          return (
-            <label key={group}>
-              <input
-                type="checkbox"
-                name={group}
-                onChange={(e) => toggleCard(e)}
-                checked={activeCards.includes(group)}
-              ></input>
-              {group}
-            </label>
-          );
-        })}
-
+    <>
       <div>
         Showing{" "}
         {Object.keys(groups)
@@ -54,13 +32,45 @@ export default function ContributionGroupCards({ groups }) {
           }, 0)}{" "}
         records
       </div>
-
-      {Object.keys(groups)
-        .sort()
-        .filter((group) => activeCards.includes(group))
-        .map((group) => {
-          return <ContributionGroupCard key={group} header={group} group={groups[group]} />;
-        })}
-    </div>
+      <div>
+        <div className="left-column">
+          <div>
+            <button name="show all" onClick={showAll}>
+              Show All
+            </button>
+          </div>
+          <div>
+            <button name="clear all" onClick={clearAll}>
+              clearAll
+            </button>
+          </div>
+          {Object.keys(groups)
+            .sort()
+            .map((group) => {
+              return (
+                <div>
+                  <label key={group}>
+                    <input
+                      type="checkbox"
+                      name={group}
+                      onChange={(e) => toggleCard(e)}
+                      checked={activeCards.includes(group)}
+                    ></input>
+                    {group}
+                  </label>
+                </div>
+              );
+            })}
+        </div>
+        <div className="right-column">
+          {Object.keys(groups)
+            .sort()
+            .filter((group) => activeCards.includes(group))
+            .map((group) => {
+              return <ContributionGroupCard key={group} header={group} group={groups[group]} />;
+            })}
+        </div>
+      </div>
+    </>
   );
 }
