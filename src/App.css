@@ -37,14 +37,65 @@
   }
 }
 
-table {
+/* 
+=================
+Table
+=====================
+*/
+
+.table {
   width: 80%;
   margin: auto;
+  border-spacing: 0;
 }
 
 caption {
   font-size: x-large;
   font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.table th {
+  background: #fff;
+  padding: 8px 10px;
+  border-bottom: 1px solid #1a1a1a;
+  font-weight: bold;
+  text-align: left;
+}
+
+.table th.up {
+  background-image: url("./images/up_arrow.png");
+}
+.table th.down {
+  background-image: url("./images/down_arrow.png");
+}
+.table th.default {
+  background-image: url("./images/default.png");
+}
+th.up,
+th.default,
+th.down {
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center right;
+}
+
+.table td {
+  border-top: 1px solid #ddd;
+  padding: 8px 20px;
+}
+
+.table tbody tr:first-child {
+  border-top: none;
+}
+
+.table tbody tr:nth-child(n) {
+  background: #eff0f0;
+}
+
+.table tbody tr:nth-child(2n) {
+  background: #fff;
 }
 
 .republican {
@@ -61,4 +112,8 @@ caption {
 
 .green {
   background-color: rgb(157, 255, 157);
+}
+
+.unknown {
+  background: #fff;
 }
