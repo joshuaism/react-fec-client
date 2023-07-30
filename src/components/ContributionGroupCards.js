@@ -1,11 +1,12 @@
 import { useState } from "react";
+import BarChart from "./BarChart";
 import ContributionGroupCard from "./ContributionGroupCard";
 
 export default function ContributionGroupCards({ groups }) {
   const [activeCards, setActiveCards] = useState(Object.keys(groups));
 
   function showAll() {
-    setActiveCards(Object.keys(groups));
+    setActiveCards(Object.keys(groups).sort());
   }
 
   function clearAll() {
@@ -14,10 +15,10 @@ export default function ContributionGroupCards({ groups }) {
 
   function toggleCard(e) {
     if (e.target.checked) {
-      setActiveCards([...activeCards, e.target.name]);
+      setActiveCards([...activeCards, e.target.name].sort());
     } else {
       const newActiveCards = activeCards.filter((card) => card !== e.target.name);
-      setActiveCards(newActiveCards);
+      setActiveCards(newActiveCards.sort());
     }
   }
 
@@ -64,6 +65,7 @@ export default function ContributionGroupCards({ groups }) {
             })}
         </div>
         <div className="right-column">
+          <BarChart groups={groups} labels={activeCards} />
           {Object.keys(groups)
             .sort()
             .filter((group) => activeCards.includes(group))
