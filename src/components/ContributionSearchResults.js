@@ -49,7 +49,8 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
       </label>
       <h1>Contributions</h1>
       <p>
-        Returned {data.results.length} of {data.pagination.count} records
+        Returned {data.results.reduce((counter, contribution) => (counter += contribution.count), 0)} of{" "}
+        {data.pagination.count} records
       </p>
       <ContributionGroupCards key={grouping} groups={groups} />
     </div>

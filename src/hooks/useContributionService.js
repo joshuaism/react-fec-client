@@ -78,10 +78,24 @@ function useContributionService() {
           collector.results = [...collector.results, ...object.results];
           return collector;
         });
-        collectedObject.results = collectedObject.results.map((contribution) => {
-          contribution.id = `${contribution.fullName} ${contribution.address} ${contribution.city} ${contribution.state} ${contribution.committee.id} ${contribution.earmark} ${contribution.amount} ${contribution.date}`;
-          return contribution;
+        const uniqueContributorCommitteePairMap = new Map();
+        collectedObject.results = collectedObject.results.map((c, i) => {
+          const key = `${c.fullName} ${c.address} ${c.city} ${c.state} ${c.committee.id} ${c.earmark} ${c.employer} ${c.occupation}`;
+          const aggregate = uniqueContributorCommitteePairMap.get(key);
+          c.id = i;
+          c.key = key;
+          if (aggregate) {
+            aggregate.date = null;
+            aggregate.amount += c.amount;
+            aggregate.count += 1;
+          } else {
+            c.count = 1;
+            uniqueContributorCommitteePairMap.set(key, c);
+          }
+          return c;
         });
+        collectedObject.results = Array.from(uniqueContributorCommitteePairMap.values());
+        collectedObject.pairMap = uniqueContributorCommitteePairMap;
         setData(collectedObject);
         const groupedObjects = groupBy(collectedObject.results, "fullName");
         setGroups(groupedObjects);

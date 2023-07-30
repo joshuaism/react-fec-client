@@ -28,7 +28,8 @@ export default function ContributionGroupCards({ groups }) {
         {Object.keys(groups)
           .filter((group) => activeCards.includes(group))
           .reduce((counter, group) => {
-            return (counter = counter + groups[group].length);
+            const count = groups[group].reduce((counter, contribution) => (counter += contribution.count), 0);
+            return (counter += count);
           }, 0)}{" "}
         records
       </div>
