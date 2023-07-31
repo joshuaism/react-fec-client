@@ -40,6 +40,10 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
         occupation
       </label>
       <label>
+        <input type="radio" value="state" name="group" onChange={(e) => onChangeValue(e)}></input>
+        state
+      </label>
+      <label>
         <input type="radio" value="committee" name="group" onChange={(e) => onChangeValue(e)}></input>
         committee
       </label>
