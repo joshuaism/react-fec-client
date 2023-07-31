@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { FixedSizeList as List } from "react-window";
+import BarChart from "./BarChart";
 import ContributionGroupCard from "./ContributionGroupCard";
 
 export default function ContributionGroupCards({ groups }) {
   const [activeCards, setActiveCards] = useState(Object.keys(groups));
 
   function showAll() {
-    setActiveCards(Object.keys(groups));
+    setActiveCards(Object.keys(groups).sort());
   }
 
   function clearAll() {
@@ -14,12 +16,28 @@ export default function ContributionGroupCards({ groups }) {
 
   function toggleCard(e) {
     if (e.target.checked) {
-      setActiveCards([...activeCards, e.target.name]);
+      setActiveCards([...activeCards, e.target.name].sort());
     } else {
       const newActiveCards = activeCards.filter((card) => card !== e.target.name);
-      setActiveCards(newActiveCards);
+      setActiveCards(newActiveCards.sort());
     }
   }
+
+  const activeGroups = Object.keys(groups)
+    .sort()
+    .filter((group) => activeCards.includes(group))
+    .map((group) => {
+      groups[group].key = group;
+      return groups[group];
+    });
+
+  const rows = ({ index, data }) => {
+    console.log(data);
+    const item = data[index];
+    return <ContributionGroupCard key={item.key} header={item.key} group={item} />;
+  };
+
+  //);
 
   return (
     <>
@@ -64,12 +82,10 @@ export default function ContributionGroupCards({ groups }) {
             })}
         </div>
         <div className="right-column">
-          {Object.keys(groups)
-            .sort()
-            .filter((group) => activeCards.includes(group))
-            .map((group) => {
-              return <ContributionGroupCard key={group} header={group} group={groups[group]} />;
-            })}
+          <BarChart groups={groups} labels={activeCards} />
+          <List height={10000} itemData={activeGroups} itemCount={activeGroups.length} itemSize={200}>
+            {rows}
+          </List>
         </div>
       </div>
     </>
