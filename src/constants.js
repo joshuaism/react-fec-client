@@ -59,6 +59,7 @@ export const STATES = [
   "AA",
   "AP",
   "AE",
+  "ZZ",
 ];
 
 export const YEARS = [
