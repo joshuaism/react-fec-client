@@ -6,13 +6,6 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export default function BarChart({ groups, labels }) {
   const sortedLabels = labels.sort();
-  /*const barData = Object.keys(groups)
-    .sort()
-    .filter((group) => sortedLabels.includes(group))
-    .map((key) => {
-      const total = groups[key].reduce((total, c) => total + c.amount, 0);
-      return total;
-    });*/
 
   const committeeData = {};
   const committeeColors = [];
@@ -73,7 +66,6 @@ export default function BarChart({ groups, labels }) {
     return (10 * length) / 2;
   }
 
-  //const datasets = [{ data: barData, label: "", barPercentage: 1.0, categoryPercentage: 1.0 }];
   const data = { labels: sortedLabels, datasets: finalData };
 
   const options = {
