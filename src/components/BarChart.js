@@ -1,19 +1,21 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { REPUBLICAN, DEMOCRATIC } from "../constants";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function BarChart({ groups, labels }) {
   const sortedLabels = labels.sort();
-  const barData = Object.keys(groups)
+  /*const barData = Object.keys(groups)
     .sort()
     .filter((group) => sortedLabels.includes(group))
     .map((key) => {
       const total = groups[key].reduce((total, c) => total + c.amount, 0);
       return total;
-    });
+    });*/
 
   const committeeData = {};
+  const committeeColors = [];
 
   const labeledData = sortedLabels.map((key) => {
     const dataObj = {};
@@ -23,6 +25,7 @@ export default function BarChart({ groups, labels }) {
         dataObj[c.committee.name] = dataObj[c.committee.name] + c.amount;
       } else {
         dataObj[c.committee.name] = c.amount;
+        committeeColors[c.committee.name] = getPartyColor(c);
       }
     });
     return dataObj;
@@ -34,6 +37,7 @@ export default function BarChart({ groups, labels }) {
         committeeData[key] = {
           label: key,
           data: labeledData,
+          backgroundColor: committeeColors[key],
           barPercentage: 1.0,
           categoryPercentage: 1.0,
           parsing: {
@@ -43,6 +47,21 @@ export default function BarChart({ groups, labels }) {
       }
     });
   });
+
+  function getPartyColor(contribution) {
+    if (REPUBLICAN.includes(contribution.committee.name)) {
+      return "rgba(241, 141, 141, 256)";
+    }
+    if (DEMOCRATIC.includes(contribution.committee.name)) {
+      return "rgba(173, 216, 230, 256)";
+    }
+    const party = contribution.committee.party;
+    if (party.indexOf("DEMOCRATIC") > -1) return "rgba(173, 216, 230, 256)";
+    if (party.indexOf("REPUBLICAN") > -1) return "rgba(241, 141, 141, 256)";
+    if (party.indexOf("LIBERTARIAN") > -1) return "rgba(228, 228, 154, 256);";
+    if (party.indexOf("GREEN") > -1) return "rgba(157, 255, 157, 256)";
+    return "#fff";
+  }
 
   const finalData = Object.keys(committeeData).map((key) => committeeData[key]);
 
@@ -54,7 +73,7 @@ export default function BarChart({ groups, labels }) {
     return (10 * length) / 2;
   }
 
-  const datasets = [{ data: barData, label: "", barPercentage: 1.0, categoryPercentage: 1.0 }];
+  //const datasets = [{ data: barData, label: "", barPercentage: 1.0, categoryPercentage: 1.0 }];
   const data = { labels: sortedLabels, datasets: finalData };
 
   const options = {
