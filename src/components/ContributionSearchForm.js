@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { STATES, YEARS } from "../constants";
+import { useQueryState } from "../hooks/useQueryState"
 
 export default function ContributionSearchForm({ searchContributions }) {
-  const [data, setData] = useState({});
-  const [toYear, setToYear] = useState(2024);
-  const [fromYear, setFromYear] = useState(2024);
+  const [queryData, setQueryData] = useQueryState();
+  const [data, setData] = useState(queryData);
+  const [toYear, setToYear] = useState(queryData.to_year? queryData.to_year : 2024);
+  const [fromYear, setFromYear] = useState(queryData.from_year? queryData.from_year : 2024);
 
   function updateData(e) {
     //console.log(`updating ${e.target.name} to ${e.target.value}`);
@@ -47,6 +49,7 @@ export default function ContributionSearchForm({ searchContributions }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setQueryData(data);
     searchContributions(data);
   }
 
@@ -75,23 +78,23 @@ export default function ContributionSearchForm({ searchContributions }) {
       <form onSubmit={handleSubmit} onReset={handleReset}>
         <label>
           Name:
-          <input type="text" name="name" onChange={updateData}></input>
+          <input type="text" name="name" defaultValue={queryData.name} onChange={updateData}></input>
         </label>
         <label>
           Employer:
-          <input type="text" name="employer" onChange={updateData}></input>
+          <input type="text" name="employer" defaultValue={queryData.employer} onChange={updateData}></input>
         </label>
         <label>
           Occupation:
-          <input type="text" name="occupation" onChange={updateData}></input>
+          <input type="text" name="occupation" defaultValue={queryData.occupation} onChange={updateData}></input>
         </label>
         <label>
           City:
-          <input type="text" name="city" onChange={updateData}></input>
+          <input type="text" name="city" defaultValue={queryData.city} onChange={updateData}></input>
         </label>
         <label>
           State:
-          <select name="state" onChange={updateData}>
+          <select name="state" defaultValue={queryData.state} onChange={updateData}>
             <option value="" key=""></option>
             {STATES.map((state) => (
               <option value={state} key={state}>
@@ -102,22 +105,22 @@ export default function ContributionSearchForm({ searchContributions }) {
         </label>
         <label>
           Committee:
-          <input type="text" name="committee" onChange={updateData}></input>
+          <input type="text" name="committee" defaultValue={queryData.committee ?? ''} onChange={updateData}></input>
         </label>
         <label>
-          <input type="checkbox" name="p" onChange={updateCheckbox}></input>
+          <input type="checkbox" name="p" defaultChecked={queryData.p} onChange={updateCheckbox}></input>
           President
         </label>
         <label>
-          <input type="checkbox" name="s" onChange={updateCheckbox}></input>
+          <input type="checkbox" name="s" defaultChecked={queryData.s} onChange={updateCheckbox}></input>
           Senate
         </label>
         <label>
-          <input type="checkbox" name="h" onChange={updateCheckbox}></input>
+          <input type="checkbox" name="h" defaultChecked={queryData.h} onChange={updateCheckbox}></input>
           House
         </label>
         <label>
-          <input type="checkbox" name="other" onChange={updateCheckbox}></input>
+          <input type="checkbox" name="other" defaultChecked={queryData.other} onChange={updateCheckbox}></input>
           Other
         </label>
         <button type="reset">Clear Form</button>
