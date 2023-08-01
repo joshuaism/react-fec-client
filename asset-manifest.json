@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/react-fec-client/static/css/main.0b6aa5b2.css",
-    "main.js": "/react-fec-client/static/js/main.ae0753db.js",
+    "main.js": "/react-fec-client/static/js/main.98e5465c.js",
     "static/js/787.84903f02.chunk.js": "/react-fec-client/static/js/787.84903f02.chunk.js",
     "index.html": "/react-fec-client/index.html",
     "main.0b6aa5b2.css.map": "/react-fec-client/static/css/main.0b6aa5b2.css.map",
-    "main.ae0753db.js.map": "/react-fec-client/static/js/main.ae0753db.js.map",
+    "main.98e5465c.js.map": "/react-fec-client/static/js/main.98e5465c.js.map",
     "787.84903f02.chunk.js.map": "/react-fec-client/static/js/787.84903f02.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0b6aa5b2.css",
-    "static/js/main.ae0753db.js"
+    "static/js/main.98e5465c.js"
   ]
 }
