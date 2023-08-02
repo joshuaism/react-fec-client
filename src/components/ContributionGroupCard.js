@@ -60,6 +60,9 @@ export default function ContributionGroupCard({ header, group }) {
 }
 
 function getPartyStyle(contribution) {
+  if (contribution.committee == null) {
+    return "wrong";
+  }
   if (REPUBLICAN.includes(contribution.committee.name)) {
     return "republican";
   }

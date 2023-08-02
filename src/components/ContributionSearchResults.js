@@ -16,7 +16,8 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
     setGrouping(e.target.value);
     if (e.target.value === "committee") {
       const newGroups = data.results.reduce(function (rv, x) {
-        (rv[x["committee"].name] = rv[x["committee"].name] || []).push(x);
+        const key = x["committee"]? x["committee"].name : "unknown";
+        (rv[key] = rv[key] || []).push(x);
         return rv;
       }, {});
       setGroups(newGroups);

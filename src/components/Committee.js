@@ -3,6 +3,9 @@ import fec from "../images/fec.png";
 import opensecrects from "../images/opensecrets.png";
 
 export function getCommitteeName(earmark, committee) {
+  if (committee == null) {
+    return earmark;
+  }
   const name = committee.name;
   if (committee.name === "ACTBLUE" || committee.name === "WINRED") {
     if (earmark.substring(0, 13) === "EARMARKED FOR") {
@@ -13,6 +16,9 @@ export function getCommitteeName(earmark, committee) {
 }
 
 function getCommitteeId(earmark, committee) {
+  if (committee == null) {
+    return "unknown";
+  }
   if (committee.name === "ACTBLUE" || committee.name === "WINRED") {
     if (earmark.substring(0, 13) === "EARMARKED FOR") {
       return earmark.substring(earmark.lastIndexOf("(") + 1, earmark.lastIndexOf(")"));

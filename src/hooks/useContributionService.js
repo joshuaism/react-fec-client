@@ -80,7 +80,10 @@ function useContributionService() {
         });
         const uniqueContributorCommitteePairMap = new Map();
         collectedObject.results = collectedObject.results.map((c, i) => {
-          const key = `${c.fullName} ${c.address} ${c.city} ${c.state} ${c.committee.id} ${c.earmark} ${c.employer} ${c.occupation}`;
+          if (c.committee == null) {
+            console.log(c);
+          }
+          const key = `${c.fullName} ${c.address} ${c.city} ${c.state} ${c.committee? c.committee.id: ""} ${c.earmark} ${c.employer} ${c.occupation}`;
           const aggregate = uniqueContributorCommitteePairMap.get(key);
           c.id = i;
           c.key = key;
