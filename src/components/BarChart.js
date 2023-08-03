@@ -14,7 +14,7 @@ export default function BarChart({ groups, labels }) {
     const dataObj = {};
     dataObj.y = key;
     groups[key].map((c) => {
-      const committeeKey = c.committee? c.committee.name : "null";
+      const committeeKey = c.committee ? c.committee.name.replaceAll(".", "") : "null";
       if (dataObj[committeeKey]) {
         dataObj[committeeKey] = dataObj[committeeKey] + c.amount;
       } else {
@@ -96,6 +96,7 @@ export default function BarChart({ groups, labels }) {
       tooltip: {
         callbacks: {
           label: function (item) {
+            console.log(item);
             if (item.formattedValue === "0") {
               return "";
             }
