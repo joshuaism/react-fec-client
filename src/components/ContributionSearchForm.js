@@ -1,23 +1,26 @@
 import { useState } from "react";
 import { STATES, YEARS } from "../constants";
 import { useQueryState } from "../hooks/useQueryState";
+import { useSearchParams } from "react-router-dom";
 import MultiText from "./MultiText";
 
 export default function ContributionSearchForm({ searchContributions }) {
+  const [searchParams] = useSearchParams();
   const [queryData, setQueryData] = useQueryState();
   const [data, setData] = useState(queryData);
   const [toYear, setToYear] = useState(queryData.to_year ? queryData.to_year : 2024);
   const [fromYear, setFromYear] = useState(queryData.from_year ? queryData.from_year : 2024);
 
-  const [nameFields, setNameFields] = useState(populateField(queryData, "name"));
-  const [employerFields, setEmployerFields] = useState(populateField(queryData, "employer"));
-  const [occupationFields, setOccupationFields] = useState(populateField(queryData, "occupation"));
-  const [cityFields, setCityFields] = useState(populateField(queryData, "city"));
-  const [committeeFields, setCommitteeFields] = useState(populateField(queryData, "committee"));
+  const [nameFields, setNameFields] = useState(populateField(searchParams, "name"));
+  const [employerFields, setEmployerFields] = useState(populateField(searchParams, "employer"));
+  const [occupationFields, setOccupationFields] = useState(populateField(searchParams, "occupation"));
+  const [cityFields, setCityFields] = useState(populateField(searchParams, "city"));
+  const [committeeFields, setCommitteeFields] = useState(populateField(searchParams, "committee"));
 
-  function populateField(queryData, fieldName) {
-    if (queryData[fieldName]) {
-      return queryData[fieldName].map((v) => {
+  function populateField(searchParams, fieldName) {
+    const params = searchParams.getAll(fieldName);
+    if (params.length > 0) {
+      return params.map((v) => {
         return { [fieldName]: v };
       });
     }

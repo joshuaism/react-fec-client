@@ -9,7 +9,11 @@ export const useQueryState = () => {
 
   const setQuery = useCallback(
     (value) => {
-      const queryString = qs.stringify(value, { skipNulls: true, filter: (prefix, value) => value || undefined });
+      const queryString = qs.stringify(value, {
+        arrayFormat: "repeat",
+        skipNulls: true,
+        filter: (prefix, value) => value || undefined,
+      });
 
       navigate(`${location.pathname}?${queryString}`);
     },
