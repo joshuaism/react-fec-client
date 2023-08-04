@@ -1,12 +1,24 @@
 import { useState } from "react";
 import { STATES, YEARS } from "../constants";
-import { useQueryState } from "../hooks/useQueryState"
+import { useQueryState } from "../hooks/useQueryState";
+import MultiText from "./MultiText";
 
 export default function ContributionSearchForm({ searchContributions }) {
   const [queryData, setQueryData] = useQueryState();
   const [data, setData] = useState(queryData);
-  const [toYear, setToYear] = useState(queryData.to_year? queryData.to_year : 2024);
-  const [fromYear, setFromYear] = useState(queryData.from_year? queryData.from_year : 2024);
+  const [toYear, setToYear] = useState(queryData.to_year ? queryData.to_year : 2024);
+  const [fromYear, setFromYear] = useState(queryData.from_year ? queryData.from_year : 2024);
+
+  const [nameFields, setNameFields] = useState(populateField(queryData, "name"));
+
+  function populateField(queryData, fieldName) {
+    if (queryData[fieldName]) {
+      return queryData.name.map((v) => {
+        return { [fieldName]: v };
+      });
+    }
+    return [{ [fieldName]: "" }];
+  }
 
   function updateData(e) {
     //console.log(`updating ${e.target.name} to ${e.target.value}`);
@@ -42,15 +54,27 @@ export default function ContributionSearchForm({ searchContributions }) {
 
   function handleReset() {
     setData({});
+    setQueryData({});
     setFromYear(2024);
     setToYear(2024);
+    setNameFields([{ name: "" }]);
     console.log("cleared form");
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+    data.name = multiTextToArray(nameFields, "name");
     setQueryData(data);
     searchContributions(data);
+  }
+
+  function multiTextToArray(fields, fieldName) {
+    const arr = [];
+    fields.forEach((obj) => {
+      if (obj[fieldName] === "") return;
+      arr.push(obj[fieldName]);
+    });
+    return arr;
   }
 
   return (
@@ -76,10 +100,7 @@ export default function ContributionSearchForm({ searchContributions }) {
         </select>
       </label>
       <form onSubmit={handleSubmit} onReset={handleReset}>
-        <label>
-          Name:
-          <input type="text" name="name" defaultValue={queryData.name} onChange={updateData}></input>
-        </label>
+        <MultiText label="name" inputFields={nameFields} setInputFields={setNameFields} />
         <label>
           Employer:
           <input type="text" name="employer" defaultValue={queryData.employer} onChange={updateData}></input>
@@ -105,7 +126,7 @@ export default function ContributionSearchForm({ searchContributions }) {
         </label>
         <label>
           Committee:
-          <input type="text" name="committee" defaultValue={queryData.committee ?? ''} onChange={updateData}></input>
+          <input type="text" name="committee" defaultValue={queryData.committee ?? ""} onChange={updateData}></input>
         </label>
         <label>
           <input type="checkbox" name="p" defaultChecked={queryData.p} onChange={updateCheckbox}></input>

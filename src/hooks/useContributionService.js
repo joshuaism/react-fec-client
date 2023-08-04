@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { YEARS } from "../constants";
 import axios from "axios";
+import qs from "qs";
 
 export const REQUEST_STATUS = {
   LOADING: "loading",
@@ -41,21 +42,35 @@ function useContributionService() {
   }
 
   function getRequestUrl(formData) {
-    const queryparams = Object.keys(formData)
-      .filter((key) => formData[key] && formData[key] !== "")
-      .filter((key) => key !== "from_year" && key !== "to_year")
-      .map((key) => {
-        if (committeeTypes.includes(key)) {
-          if (key === "other") {
-            return otherCommitteeTypes.map((type) => `committee_type=${type}`).join("&");
-          }
-          return `committee_type=${key}`;
+    const committees = [];
+    Object.keys(formData)
+      .filter((key) => committeeTypes.includes(key))
+      .forEach((key) => {
+        if (formData[key] !== true) return;
+        if (key === "other" && formData[key] === true) {
+          committees.push(...otherCommitteeTypes);
+          return;
         }
-        return `${key}=${formData[key]}`;
-      })
-      .join("&");
+        committees.push(key);
+      });
 
     const yearparams = getYearParams(formData.from_year, formData.to_year);
+
+    let massagedFormData = { ...formData };
+    massagedFormData.committee_type = committees;
+    delete massagedFormData.to_year;
+    delete massagedFormData.from_year;
+    delete massagedFormData.p;
+    delete massagedFormData.s;
+    delete massagedFormData.h;
+    delete massagedFormData.other;
+
+    const queryparams = qs.stringify(massagedFormData, {
+      skipNulls: true,
+      arrayFormat: "repeat",
+      filter: (prefix, value) => value || undefined,
+    });
+    console.log(queryparams);
 
     if (queryparams && yearparams) return `${restUrl}${queryparams}&${yearparams}`;
     if (queryparams) return `${restUrl}${queryparams}`;
@@ -83,7 +98,9 @@ function useContributionService() {
           if (c.committee == null) {
             console.log(c);
           }
-          const key = `${c.fullName} ${c.address} ${c.city} ${c.state} ${c.committee? c.committee.id: ""} ${c.earmark} ${c.employer} ${c.occupation}`;
+          const key = `${c.fullName} ${c.address} ${c.city} ${c.state} ${c.committee ? c.committee.id : ""} ${
+            c.earmark
+          } ${c.employer} ${c.occupation}`;
           const aggregate = uniqueContributorCommitteePairMap.get(key);
           c.id = i;
           c.key = key;
