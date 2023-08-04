@@ -70,7 +70,6 @@ function useContributionService() {
       arrayFormat: "repeat",
       filter: (prefix, value) => value || undefined,
     });
-    console.log(queryparams);
 
     if (queryparams && yearparams) return `${restUrl}${queryparams}&${yearparams}`;
     if (queryparams) return `${restUrl}${queryparams}`;

@@ -10,10 +10,14 @@ export default function ContributionSearchForm({ searchContributions }) {
   const [fromYear, setFromYear] = useState(queryData.from_year ? queryData.from_year : 2024);
 
   const [nameFields, setNameFields] = useState(populateField(queryData, "name"));
+  const [employerFields, setEmployerFields] = useState(populateField(queryData, "employer"));
+  const [occupationFields, setOccupationFields] = useState(populateField(queryData, "occupation"));
+  const [cityFields, setCityFields] = useState(populateField(queryData, "city"));
+  const [committeeFields, setCommitteeFields] = useState(populateField(queryData, "committee"));
 
   function populateField(queryData, fieldName) {
     if (queryData[fieldName]) {
-      return queryData.name.map((v) => {
+      return queryData[fieldName].map((v) => {
         return { [fieldName]: v };
       });
     }
@@ -58,12 +62,20 @@ export default function ContributionSearchForm({ searchContributions }) {
     setFromYear(2024);
     setToYear(2024);
     setNameFields([{ name: "" }]);
+    setEmployerFields([{ employer: "" }]);
+    setOccupationFields([{ occupation: "" }]);
+    setCityFields([{ city: "" }]);
+    setCommitteeFields([{ committee: "" }]);
     console.log("cleared form");
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     data.name = multiTextToArray(nameFields, "name");
+    data.employer = multiTextToArray(employerFields, "employer");
+    data.occupation = multiTextToArray(occupationFields, "occupation");
+    data.city = multiTextToArray(cityFields, "city");
+    data.committee = multiTextToArray(committeeFields, "committee");
     setQueryData(data);
     searchContributions(data);
   }
@@ -101,18 +113,9 @@ export default function ContributionSearchForm({ searchContributions }) {
       </label>
       <form onSubmit={handleSubmit} onReset={handleReset}>
         <MultiText label="name" inputFields={nameFields} setInputFields={setNameFields} />
-        <label>
-          Employer:
-          <input type="text" name="employer" defaultValue={queryData.employer} onChange={updateData}></input>
-        </label>
-        <label>
-          Occupation:
-          <input type="text" name="occupation" defaultValue={queryData.occupation} onChange={updateData}></input>
-        </label>
-        <label>
-          City:
-          <input type="text" name="city" defaultValue={queryData.city} onChange={updateData}></input>
-        </label>
+        <MultiText label="employer" inputFields={employerFields} setInputFields={setEmployerFields} />
+        <MultiText label="occupation" inputFields={occupationFields} setInputFields={setOccupationFields} />
+        <MultiText label="city" inputFields={cityFields} setInputFields={setCityFields} />
         <label>
           State:
           <select name="state" defaultValue={queryData.state} onChange={updateData}>
@@ -124,10 +127,7 @@ export default function ContributionSearchForm({ searchContributions }) {
             ))}
           </select>
         </label>
-        <label>
-          Committee:
-          <input type="text" name="committee" defaultValue={queryData.committee ?? ""} onChange={updateData}></input>
-        </label>
+        <MultiText label="committee" inputFields={committeeFields} setInputFields={setCommitteeFields} />
         <label>
           <input type="checkbox" name="p" defaultChecked={queryData.p} onChange={updateCheckbox}></input>
           President
