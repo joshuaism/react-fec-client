@@ -61,7 +61,9 @@ export default function ContributionGroupCard({ header, group }) {
       <a id={header}></a>
       <a href="#top">BACK TO TOP</a>
       <h2>{header}</h2>
-      <p>Total Donations: {sumAmount(group)}</p>
+      <div>Total Amount: {sumAmount(group)}</div>
+      <div>Total Contributions: {group.reduce((sum, contribution) => sum + contribution.count, 0)}</div>
+      <div>Total Unique Contributions: {group.length}</div>
       <Table data={group} columns={columns} rowClassOverride={getPartyStyle} />
     </>
   );
