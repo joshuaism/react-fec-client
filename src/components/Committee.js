@@ -34,7 +34,7 @@ export default function Committee({ contribution }) {
   const committeeId = getCommitteeId(earmark, committee);
   return (
     <>
-      {committeeName}&nbsp;&nbsp;
+      <span title={committeeId}>{committeeName}</span>&nbsp;&nbsp;
       {earmark ? (
         <span>
           <img className="icon" src={ear} title={earmark} alt={earmark} />
