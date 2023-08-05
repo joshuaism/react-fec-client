@@ -132,6 +132,10 @@ th.down {
   background: #fff;
 }
 
+.wrong {
+  background: #999;
+}
+
 .icon {
   min-height: 20px;
   min-width: 20px;

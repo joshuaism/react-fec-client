@@ -14,11 +14,12 @@ export default function BarChart({ groups, labels }) {
     const dataObj = {};
     dataObj.y = key;
     groups[key].map((c) => {
-      if (dataObj[c.committee.name]) {
-        dataObj[c.committee.name] = dataObj[c.committee.name] + c.amount;
+      const committeeKey = c.committee ? c.committee.name.replaceAll(".", "") : "null";
+      if (dataObj[committeeKey]) {
+        dataObj[committeeKey] = dataObj[committeeKey] + c.amount;
       } else {
-        dataObj[c.committee.name] = c.amount;
-        committeeColors[c.committee.name] = getPartyColor(c);
+        dataObj[committeeKey] = c.amount;
+        committeeColors[committeeKey] = getPartyColor(c);
       }
     });
     return dataObj;
@@ -42,6 +43,9 @@ export default function BarChart({ groups, labels }) {
   });
 
   function getPartyColor(contribution) {
+    if (contribution.committee == null) {
+      return "#999";
+    }
     if (REPUBLICAN.includes(contribution.committee.name)) {
       return "rgba(241, 141, 141, 256)";
     }
