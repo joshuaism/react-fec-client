@@ -1,8 +1,8 @@
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { REPUBLICAN, DEMOCRATIC } from "../constants";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 export default function BarChart({ groups, labels }) {
   const sortedLabels = labels.sort();
@@ -91,10 +91,10 @@ export default function BarChart({ groups, labels }) {
     },
     responsive: true,
     maintainAspectRatio: true,
-    onClick: (evt, item) => {
-      console.log(item);
-      if (item.length > 0) {
-        const label = item[0].element.$context.raw.y;
+    onClick: (evt, item, chart) => {
+      const nearest = chart.getElementsAtEventForMode(evt, "nearest", { intersect: false, axis: "y" });
+      if (nearest.length) {
+        const label = nearest[0].element.$context.raw.y;
         const section = document.getElementById(label);
         section.scrollIntoView({ behavior: "smooth", block: "start" });
       }
