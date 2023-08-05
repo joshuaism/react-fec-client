@@ -56,7 +56,19 @@ function asDate(field) {
 }
 
 export default function ContributionGroupCard({ header, group }) {
-  return <Table caption={header} data={group} columns={columns} rowClassOverride={getPartyStyle} />;
+  return (
+    <>
+      <a id={header}></a>
+      <a href="#top">BACK TO TOP</a>
+      <h2>{header}</h2>
+      <p>Total Donations: {sumAmount(group)}</p>
+      <Table data={group} columns={columns} rowClassOverride={getPartyStyle} />
+    </>
+  );
+}
+
+function sumAmount(group) {
+  return asMoney(group.reduce((sum, contribution) => sum + contribution.amount, 0));
 }
 
 function getPartyStyle(contribution) {

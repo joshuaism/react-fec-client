@@ -91,6 +91,14 @@ export default function BarChart({ groups, labels }) {
     },
     responsive: true,
     maintainAspectRatio: true,
+    onClick: (evt, item) => {
+      console.log(item);
+      if (item.length > 0) {
+        const label = item[0].element.$context.raw.y;
+        const section = document.getElementById(label);
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
     plugins: {
       legend: { display: false },
       tooltip: {

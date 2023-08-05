@@ -16,7 +16,7 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
     setGrouping(e.target.value);
     if (e.target.value === "committee") {
       const newGroups = data.results.reduce(function (rv, x) {
-        const key = x["committee"]? x["committee"].name : "unknown";
+        const key = x["committee"] ? x["committee"].name : "unknown";
         (rv[key] = rv[key] || []).push(x);
         return rv;
       }, {});
@@ -52,6 +52,7 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
         <input type="radio" value="two_year_transaction_period" name="group" onChange={(e) => onChangeValue(e)}></input>
         year
       </label>
+      <a id="top"></a>
       <h1>Contributions</h1>
       <p>
         Returned {data.results.reduce((counter, contribution) => (counter += contribution.count), 0)} of{" "}
