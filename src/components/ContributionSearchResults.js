@@ -6,7 +6,8 @@ import ContributionGroupCards from "./ContributionGroupCards";
 export default function ContributionSearchResults({ data, groups, setGroups, requestStatus, error }) {
   const [grouping, setGrouping] = useState("fullName");
   if (requestStatus === "") return null;
-  if (requestStatus === REQUEST_STATUS.LOADING) return <p>Loading...</p>;
+  if (requestStatus.toLowerCase().startsWith("loading")) return <p>{requestStatus}...</p>;
+  if (requestStatus === REQUEST_STATUS.PROCESSING) return <p>processing results</p>;
   if (error) {
     console.log(error);
     return <h1>Something went wrong</h1>;

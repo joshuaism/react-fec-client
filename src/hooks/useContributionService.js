@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { YEARS } from "../constants";
-import axios from "axios";
+import ndjsonStream from "can-ndjson-stream";
 import qs from "qs";
 
 export const REQUEST_STATUS = {
   LOADING: "loading",
+  PROCESSING: "processing",
   SUCCESS: "success",
   FAILURE: "failure",
 };
@@ -85,9 +86,25 @@ function useContributionService() {
     async function makeRequest() {
       setRequestStatus(REQUEST_STATUS.LOADING);
       try {
-        const result = await axios.get(requestUrl);
-        setRequestStatus(REQUEST_STATUS.SUCCESS);
-        const collectedObject = result.data.reduce((collector, object) => {
+        const response = await fetch(requestUrl);
+        const ndjson = ndjsonStream(response.body);
+        const reader = ndjson.getReader();
+        let result = [];
+        let count = 0;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            break;
+          }
+          result = [value, ...result];
+          count = count + value.results.length;
+          console.log(`loading ${count} of ${value.pagination.count} records`);
+          setRequestStatus(`loading ${count} of ${value.pagination.count} records`);
+        }
+        reader.releaseLock();
+
+        setRequestStatus(REQUEST_STATUS.PROCESSING);
+        const collectedObject = result.reduce((collector, object) => {
           collector.pagination = object.pagination;
           collector.results = [...collector.results, ...object.results];
           return collector;
@@ -118,6 +135,7 @@ function useContributionService() {
         setData(collectedObject);
         const groupedObjects = groupBy(collectedObject.results, "fullName");
         setGroups(groupedObjects);
+        setRequestStatus(REQUEST_STATUS.SUCCESS);
       } catch (e) {
         setRequestStatus(REQUEST_STATUS.FAILURE);
         setError(e);
