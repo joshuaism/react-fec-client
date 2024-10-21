@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { STATES, YEARS } from "../constants";
 import { useQueryState } from "../hooks/useQueryState";
 import { useSearchParams } from "react-router-dom";
@@ -26,6 +26,18 @@ export default function ContributionSearchForm({ searchContributions }) {
     }
     return [{ [fieldName]: "" }];
   }
+
+  useEffect(
+    () => {
+      async function runOnce() {
+        if (searchParams.size !== 0) {
+          handleSubmit();
+        }
+      }
+      runOnce();
+    },
+    [] // use an empty array here so it only runs the first time the component renders
+  );
 
   function updateData(e) {
     //console.log(`updating ${e.target.name} to ${e.target.value}`);
@@ -73,7 +85,9 @@ export default function ContributionSearchForm({ searchContributions }) {
   }
 
   function handleSubmit(event) {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     data.name = multiTextToArray(nameFields, "name");
     data.employer = multiTextToArray(employerFields, "employer");
     data.occupation = multiTextToArray(occupationFields, "occupation");
