@@ -1,10 +1,11 @@
+import fec from "../images/fec.png";
 import Table from "./Table";
 import { sortOnField } from "../hooks/useSortableTable";
 import { DEMOCRATIC, REPUBLICAN } from "../constants";
 import Committee, { getCommitteeName } from "./Committee";
 
 const columns = [
-  { label: "Name", accessor: "fullName", sortable: true },
+  { label: "Name", accessor: "fullName", replacement: asName, sortable: true },
   { label: "Location", accessor: "city", customSort: sortByLocation, replacement: asLocation, sortable: true },
   { label: "Employer", accessor: "employer", sortable: true },
   { label: "Occupation", accessor: "occupation", sortable: true },
@@ -40,6 +41,22 @@ function asLocation(contribution) {
     <span title={address}>
       {city}, {state}
     </span>
+  );
+}
+
+function asName(contribution) {
+  return (
+    <>
+      {contribution.fullName}
+      {"  "}
+      <a
+        target="_blank"
+        title="FEC Contributor Search"
+        href={`https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=${contribution.fullName}&&contributor_employer=${contribution.employer}&contributor_occupation=${contribution.occupation}&contributor_city=${contribution.city}&contributor_state=${contribution.state}&committee_id=${contribution.committee.id}`}
+      >
+        <img className="icon" src={fec} alt="FEC Contributor Search" />
+      </a>
+    </>
   );
 }
 
