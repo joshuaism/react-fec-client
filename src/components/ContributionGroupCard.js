@@ -44,16 +44,24 @@ function asLocation(contribution) {
   );
 }
 
+function getIndividualContributionsLink(contribution) {
+  let url = `https://www.fec.gov/data/receipts/individual-contributions/`;
+  let query = `?contributor_name=${contribution.fullName}&contributor_city=${contribution.city}&contributor_state=${contribution.state}&committee_id=${contribution.committee.id}`;
+  if (contribution.employer) {
+    query = query + `&contributor_employer=${contribution.employer}`;
+  }
+  if (contribution.occupation) {
+    query = query + `&contributor_occupation=${contribution.occupation}`;
+  }
+  return url + query;
+}
+
 function asName(contribution) {
   return (
     <>
       {contribution.fullName}
       {"  "}
-      <a
-        target="_blank"
-        title="FEC Contributor Search"
-        href={`https://www.fec.gov/data/receipts/individual-contributions/?contributor_name=${contribution.fullName}&&contributor_employer=${contribution.employer}&contributor_occupation=${contribution.occupation}&contributor_city=${contribution.city}&contributor_state=${contribution.state}&committee_id=${contribution.committee.id}`}
-      >
+      <a target="_blank" title="FEC Contributor Search" href={getIndividualContributionsLink(contribution)}>
         <img className="icon" src={fec} alt="FEC Contributor Search" />
       </a>
     </>
