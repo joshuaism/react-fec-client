@@ -8,8 +8,8 @@ export default function ContributionSearchForm({ searchContributions }) {
   const [searchParams] = useSearchParams();
   const [queryData, setQueryData] = useQueryState();
   const [data, setData] = useState(queryData);
-  const [toYear, setToYear] = useState(queryData.to_year ? queryData.to_year : 2024);
-  const [fromYear, setFromYear] = useState(queryData.from_year ? queryData.from_year : 2024);
+  const [toYear, setToYear] = useState(queryData.to_year ? queryData.to_year : 2026);
+  const [fromYear, setFromYear] = useState(queryData.from_year ? queryData.from_year : 2026);
 
   const [nameFields, setNameFields] = useState(populateField(searchParams, "name"));
   const [employerFields, setEmployerFields] = useState(populateField(searchParams, "employer"));
@@ -74,8 +74,8 @@ export default function ContributionSearchForm({ searchContributions }) {
   function handleReset() {
     setData({});
     setQueryData({});
-    setFromYear(2024);
-    setToYear(2024);
+    setFromYear(2026);
+    setToYear(2026);
     setNameFields([{ name: "" }]);
     setEmployerFields([{ employer: "" }]);
     setOccupationFields([{ occupation: "" }]);

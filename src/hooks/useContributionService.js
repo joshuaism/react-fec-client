@@ -30,8 +30,8 @@ function useContributionService() {
   const [error, setError] = useState("");
 
   function getYearParams(fromYear, toYear) {
-    fromYear = fromYear ? fromYear : 2024;
-    toYear = toYear ? toYear : 2024;
+    fromYear = fromYear ? fromYear : 2026;
+    toYear = toYear ? toYear : 2026;
     if (fromYear > toYear) {
       fromYear = toYear;
     }
