@@ -45,7 +45,7 @@ function asLocation(contribution) {
 }
 
 function getIndividualContributionsLink(contribution) {
-  let url = `https://www.fec.gov/data/receipts/individual-contributions/`;
+  let url = `https://www.fec.gov/data/receipts/`;
   let query = `?contributor_name=${contribution.fullName}&contributor_city=${contribution.city}&contributor_state=${contribution.state}&committee_id=${contribution.committee.id}`;
   if (contribution.employer) {
     query = query + `&contributor_employer=${contribution.employer}`;
