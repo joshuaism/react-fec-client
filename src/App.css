@@ -136,6 +136,10 @@ th.down {
   background: #999;
 }
 
+.error {
+  color: #f00;
+}
+
 .icon {
   min-height: 20px;
   min-width: 20px;

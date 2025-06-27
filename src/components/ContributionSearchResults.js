@@ -10,7 +10,12 @@ export default function ContributionSearchResults({ data, groups, setGroups, req
   if (requestStatus === REQUEST_STATUS.PROCESSING) return <p>processing results</p>;
   if (error) {
     console.log(error);
-    return <h1>Something went wrong</h1>;
+    return (
+      <div>
+        <h1>Something went wrong</h1>
+        <p class="error">{error.toString()}</p>
+      </div>
+    );
   }
 
   function onChangeValue(e) {
