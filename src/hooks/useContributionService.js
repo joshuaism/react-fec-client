@@ -96,6 +96,9 @@ function useContributionService() {
           if (done) {
             break;
           }
+          if (value.message) {
+            throw new Error(value.message);
+          }
           result = [value, ...result];
           count = count + value.results.length;
           console.log(`loading ${count} of ${value.pagination.count} records`);
