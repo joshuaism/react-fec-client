@@ -85,6 +85,7 @@ function useContributionService() {
     }
     async function makeRequest() {
       setRequestStatus(REQUEST_STATUS.LOADING);
+      setError("");
       try {
         const response = await fetch(requestUrl);
         const ndjson = ndjsonStream(response.body);
